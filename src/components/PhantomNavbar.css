@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.phantom-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.phantom-nav.scrolled {
+  padding: 12px 40px;
+  background: rgba(0, 0, 0, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.phantom-logo {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.phantom-logo:hover {
+  transform: translateY(-1px);
+}
+
+.phantom-logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  transition: width 0.3s ease;
+}
+
+.phantom-logo:hover::after {
+  width: 100%;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.sound-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sound-wrapper:hover {
+  color: #4ecdc4;
+}
+
+.sound-bars {
+  display: flex;
+  margin-right: 12px;
+  height: 16px;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.sound-bar {
+  width: 2px;
+  height: 100%;
+  background: #ffffff;
+  transform-origin: bottom;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.sound-wrapper:hover .sound-bar {
+  background: #4ecdc4;
+}
+
+.sound-bar.active {
+  animation: soundWave 1.2s ease-in-out infinite;
+}
+
+.sound-bar:nth-child(1) { animation-delay: 0s; }
+.sound-bar:nth-child(2) { animation-delay: 0.1s; }
+.sound-bar:nth-child(3) { animation-delay: 0.2s; }
+.sound-bar:nth-child(4) { animation-delay: 0.3s; }
+.sound-bar:nth-child(5) { animation-delay: 0.4s; }
+
+.sound-bar.inactive {
+  opacity: 0.3;
+  transform: scaleY(0.5);
+}
+
+@keyframes soundWave {
+  0%, 100% { 
+    transform: scaleY(0.4);
+    opacity: 0.7;
+  }
+  50% { 
+    transform: scaleY(1.2);
+    opacity: 1;
+  }
+}
+
+.phantom-button {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.phantom-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.phantom-button:hover::before {
+  left: 100%;
+}
+
+.phantom-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+}
+
+.phantom-button:active {
+  transform: translateY(-1px);
+}
+
+/* Адаптивность для планшетов */
+@media (max-width: 1024px) {
+  .phantom-nav {
+    padding: 18px 30px;
+  }
+  
+  .phantom-nav.scrolled {
+    padding: 12px 30px;
+  }
+  
+  .nav-right {
+    gap: 24px;
+  }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .phantom-nav {
+    padding: 16px 20px;
+  }
+  
+  .phantom-nav.scrolled {
+    padding: 12px 20px;
+  }
+  
+  .nav-right {
+    gap: 20px;
+  }
+  
+  .phantom-logo {
+    font-size: 20px;
+  }
+  
+  .phantom-button {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  
+  .sound-wrapper {
+    font-size: 10px;
+  }
+  
+  .sound-bars {
+    height: 14px;
+    margin-right: 10px;
+  }
+}
+
+/* Дополнительная адаптивность для маленьких экранов */
+@media (max-width: 480px) {
+  .phantom-nav {
+    padding: 14px 16px;
+  }
+  
+  .phantom-nav.scrolled {
+    padding: 10px 16px;
+  }
+  
+  .nav-right {
+    gap: 16px;
+  }
+  
+  .phantom-logo {
+    font-size: 18px;
+  }
+  
+  .phantom-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  .sound-wrapper {
+    font-size: 9px;
+  }
+  
+  .sound-bars {
+    height: 12px;
+    margin-right: 8px;
+  }
+  
+  .sound-bar {
+    width: 1.5px;
+  }
+}
+
+/* Эффекты для систем с reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .phantom-nav,
+  .phantom-logo,
+  .phantom-logo::after,
+  .sound-wrapper,
+  .sound-bar,
+  .phantom-button,
+  .phantom-button::before {
+    transition: none;
+  }
+  
+  .sound-bar.active {
+    animation: none;
+  }
+  
+  .phantom-button:hover {
+    transform: none;
+  }
+  
+  .phantom-logo:hover {
+    transform: none;
+  }
+}
+
+/* Дополнительные утилиты */
+.phantom-nav * {
+  box-sizing: border-box;
+}
+
+/* Улучшение читаемости на светлых фонах */
+@media (prefers-color-scheme: light) {
+  .phantom-nav {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .phantom-nav.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .phantom-logo,
+  .sound-wrapper {
+    color: #000000;
+  }
+  
+  .sound-bar {
+    background: #000000;
+  }
+  
+  .phantom-button {
+    background: #000000;
+    color: #ffffff;
+  }
+}

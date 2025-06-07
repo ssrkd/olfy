@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Парфюмерия - Система управления</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes spinAnimation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes modalAnimation {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes overlayAnimation {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Основные стили */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .header {
+            display: flex;
+            width: 90%;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 2px solid #e0e0e0;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+        }
+
+        .title span {
+            color: #2962ff;
+            margin-left: 5px;
+        }
+
+        .perfume-icon {
+            display: inline-block;
+            margin-right: 10px;
+            color: #2962ff;
+            font-size: 24px;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            width: 90%;
+            margin-bottom: 20px;
+            animation: fadeIn 0.7s ease-out;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2962ff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #757575;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 15px;
+            width: 90%;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2962ff;
+            box-shadow: 0 0 0 2px rgba(41, 98, 255, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #2962ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e4ec7;
+            animation: pulse 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        .btn-success {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #da190b;
+        }
+
+        .perfume-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 90%;
+            animation: fadeIn 0.9s ease-out;
+        }
+
+        .perfume-card {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            animation: fadeIn 0.6s ease-out;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .perfume-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            border-left: 3px solid #2962ff;
+        }
+
+        .perfume-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .perfume-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .perfume-brand {
+            font-size: 14px;
+            color: #757575;
+            margin-bottom: 10px;
+        }
+
+        .perfume-code {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #424242;
+        }
+
+        .perfume-details {
+            margin: 15px 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .detail-label {
+            color: #757575;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .price {
+            color: #4caf50;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .perfume-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: overlayAnimation 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            animation: modalAnimation 0.3s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #757575;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2962ff;
+            box-shadow: 0 0 0 2px rgba(41, 98, 255, 0.1);
+        }
+
+        .scanner-area {
+            text-align: center;
+            padding: 40px 20px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .scanner-area.active {
+            border-color: #2962ff;
+            background: rgba(41, 98, 255, 0.05);
+        }
+
+        .scanner-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #757575;
+        }
+
+        .scanner-area.active .scanner-icon {
+            color: #2962ff;
+            animation: pulse 1s infinite;
+        }
+
+        .no-data {
+            text-align: center;
+            margin: 40px 0;
+            color: #757575;
+            font-size: 18px;
+            background: white;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 30px auto;
+            border: 3px solid #f5f5f5;
+            border-top: 3px solid #2962ff;
+            border-radius: 50%;
+            animation: spinAnimation 1s linear infinite;
+        }
+
+        .success-message {
+            background: #e8f5e8;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 3px solid #4caf50;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 3px solid #f44336;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .stats-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .action-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .perfume-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок -->
+        <div class="header">
+            <h1 class="title">
+                <span class="perfume-icon">🌸</span>
+                Парфюмерия<span>Manager</span>
+            </h1>
+            <div>
+                <button class="btn btn-primary" onclick="openAddModal()">
+                    <span>➕</span> Добавить парфюм
+                </button>
+            </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Всего позиций</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalValue">0₽</div>
+                <div class="stat-label">Общая стоимость</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgPrice">0₽</div>
+                <div class="stat-label">Средняя цена</div>
+            </div>
+        </div>
+
+        <!-- Панель действий -->
+        <div class="action-bar">
+            <input type="text" class="search-input" placeholder="🔍 Поиск по названию, бренду или коду..." id="searchInput">
+            <button class="btn btn-secondary" onclick="exportData()">
+                <span>📄</span> Экспорт
+            </button>
+            <button class="btn btn-secondary" onclick="clearAll()">
+                <span>🗑️</span> Очистить все
+            </button>
+        </div>
+
+        <!-- Список парфюмов -->
+        <div class="perfume-grid" id="perfumeGrid">
+            <div class="no-data">
+                <p>
+                    <span style="font-size: 48px;">🌸</span><br>
+                    Пока нет добавленных парфюмов<br>
+                    <small>Нажмите "Добавить парфюм" для начала работы</small>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления -->
+    <div class="modal-overlay" id="addModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🌸 Добавить новый парфюм</h2>
+                <button class="close-btn" onclick="closeAddModal()">&times;</button>
+            </div>
+
+            <!-- Область сканирования -->
+            <div class="scanner-area" id="scannerArea">
+                <div class="scanner-icon">📷</div>
+                <h3>Сканер кодов</h3>
+                <p>Нажмите для активации сканера или введите код вручную</p>
+                <button class="btn btn-primary" onclick="toggleScanner()" id="scannerBtn">
+                    <span>🔍</span> Активировать сканер
+                </button>
+            </div>
+
+            <form id="perfumeForm">
+                <div class="form-group">
+                    <label class="form-label">Код товара *</label>
+                    <input type="text" class="form-input" id="perfumeCode" placeholder="Введите или отсканируйте код" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Название парфюма *</label>
+                    <input type="text" class="form-input" id="perfumeName" placeholder="Например: Black Opium" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Бренд *</label>
+                    <input type="text" class="form-input" id="perfumeBrand" placeholder="Например: Yves Saint Laurent" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Объем (мл)</label>
+                    <input type="number" class="form-input" id="perfumeVolume" placeholder="50">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Цена (₽) *</label>
+                    <input type="number" class="form-input" id="perfumePrice" placeholder="5000" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Количество</label>
+                    <input type="number" class="form-input" id="perfumeQuantity" placeholder="1" value="1">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Описание</label>
+                    <textarea class="form-input" id="perfumeDescription" placeholder="Дополнительная информация..." rows="3"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 25px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddModal()">
+                        <span>❌</span> Отмена
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <span>✅</span> Сохранить
+                    </button>
+                </div>
+            </form>
+
+            <div id="messageArea"></div>
+        </div>
+    </div>
+
+    <script>
+        // Хранилище данных
+        let perfumes = JSON.parse(localStorage.getItem('perfumes')) || [];
+        let scannerActive = false;
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPerfumes();
+            updateStats();
+            
+            // Поиск
+            document.getElementById('searchInput').addEventListener('input', function() {
+                renderPerfumes(this.value);
+            });
+        });
+
+        // Открыть модальное окно
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+            document.getElementById('perfumeCode').focus();
+        }
+
+        // Закрыть модальное окно
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+            document.getElementById('perfumeForm').reset();
+            clearMessage();
+            if (scannerActive) {
+                toggleScanner();
+            }
+        }
+
+        // Переключение сканера
+        function toggleScanner() {
+            const scannerArea = document.getElementById('scannerArea');
+            const scannerBtn = document.getElementById('scannerBtn');
+            
+            scannerActive = !scannerActive;
+            
+            if (scannerActive) {
+                scannerArea.classList.add('active');
+                scannerBtn.innerHTML = '<span>⏹️</span> Остановить сканер';
+                scannerBtn.className = 'btn btn-danger';
+                
+                // Симуляция сканирования
+                showMessage('🔍 Сканер активирован! Поднесите товар к камере...', 'info');
+                
+                // Здесь будет интеграция с реальным сканером
+                // Пока симулируем ввод кода через 3 секунды
+                setTimeout(() => {
+                    if (scannerActive) {
+                        const mockCode = 'SPF' + Date.now().toString().slice(-6);
+                        document.getElementById('perfumeCode').value = mockCode;
+                        showMessage('✅ Код отсканирован: ' + mockCode, 'success');
+                        toggleScanner();
+                    }
+                }, 3000);
+            } else {
+                scannerArea.classList.remove('active');
+                scannerBtn.innerHTML = '<span>🔍</span> Активировать сканер';
+                scannerBtn.className = 'btn btn-primary';
+                clearMessage();
+            }
+        }
+
+        // Обработка формы
+        document.getElementById('perfumeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const perfume = {
+                id: Date.now(),
+                code: document.getElementById('perfumeCode').value,
+                name: document.getElementById('perfumeName').value,
+                brand: document.getElementById('perfumeBrand').value,
+                volume: document.getElementById('perfumeVolume').value || 0,
+                price: parseFloat(document.getElementById('perfumePrice').value),
+                quantity: parseInt(document.getElementById('perfumeQuantity').value) || 1,
+                description: document.getElementById('perfumeDescription').value,
+                dateAdded: new Date().toISOString()
+            };
+
+            // Проверка уникальности кода
+            if (perfumes.some(p => p.code === perfume.code)) {
+                showMessage('❌ Парфюм с таким кодом уже существует!', 'error');
+                return;
+            }
+
+            perfumes.push(perfume);
+            savePerfumes();
+            renderPerfumes();
+            updateStats();
+            
+            showMessage('✅ Парфюм успешно добавлен!', 'success');
+            document.getElementById('perfumeForm').reset();
+            
+            setTimeout(() => {
+                closeAddModal();
+            }, 1500);
+        });
+
+        // Рендеринг списка парфюмов
+        function renderPerfumes(searchTerm = '') {
+            const grid = document.getElementById('perfumeGrid');
+            let filteredPerfumes = perfumes;
+
+            if (searchTerm) {
+                filteredPerfumes = perfumes.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    p.code.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            }
+
+            if (filteredPerfumes.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-data">
+                        <p>
+                            <span style="font-size: 48px;">🔍</span><br>
+                            ${searchTerm ? 'Ничего не найдено' : 'Пока нет добавленных парфюмов'}<br>
+                            <small>${searchTerm ? 'Попробуйте изменить поисковый запрос' : 'Нажмите "Добавить парфюм" для начала работы'}</small>
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredPerfumes.map((perfume, index) => `
+                <div class="perfume-card" style="animation-delay: ${index * 0.1}s">
+                    <div class="perfume-header">
+                        <div>
+                            <div class="perfume-name">${perfume.name}</div>
+                            <div class="perfume-brand">${perfume.brand}</div>
+                        </div>
+                        <div class="perfume-code">${perfume.code}</div>
+                    </div>
+                    
+                    <div class="perfume-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Объем:</span>
+                            <span class="detail-value">${perfume.volume ? perfume.volume + ' мл' : 'не указан'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Цена:</span>
+                            <span class="detail-value price">${perfume.price.toLocaleString()}₽</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Количество:</span>
+                            <span class="detail-value">${perfume.quantity} шт.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Добавлено:</span>
+                            <span class="detail-value">${new Date(perfume.dateAdded).toLocaleDateString()}</span>
+                        </div>
+                        ${perfume.description ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Описание:</span>
+                            <span class="detail-value">${perfume.description}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="perfume-actions">
+                        <button class="btn btn-primary" onclick="editPerfume(${perfume.id})">
+                            <span>✏️</span> Изменить
+                        </button>
+                        <button class="btn btn-danger" onclick="deletePerfume(${perfume.id})">
+                            <span>🗑️</span> Удалить
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            const totalCount = perfumes.reduce((sum, p) => sum + p.quantity, 0);
+            const totalValue = perfumes.reduce((sum, p) => sum + (p.price * p.quantity), 0);
+            const avgPrice = perfumes.length > 0 ? totalValue / totalCount : 0;
+
+            document.getElementById('totalCount').textContent = totalCount;
+            document.getElementById('totalValue').textContent = totalValue.toLocaleString() + '₽';
+            document.getElementById('avgPrice').textContent = Math.round(avgPrice).toLocaleString() + '₽';
+        }
+
+        // Удаление парфюма
+        function deletePerfume(id) {
+            if (confirm('Вы уверены, что хотите удалить этот парфюм?')) {
+                perfumes = perfumes.filter(p => p.id !== id);
+                savePerfumes();
+                renderPerfumes();
+                updateStats();
+            }
+        }
+
+        // Редактирование парфюма (упрощенная версия)
+        function editPerfume(id) {
+            const perfume = perfumes.find(p => p.id === id);
+            if (perfume) {
+                document.getElementById('perfumeCode').value = perfume.code;
+                document.getElementById('perfumeName').value = perfume.name;
+                document.getElementById('perfumeBrand').value = perfume.brand;
+                document.getElementById('perfumeVolume').value = perfume.volume;
+                document.getElementById('perfumePrice').value = perfume.price;
+                document.getElementById('perfumeQuantity').value = perfume.quantity;
+                document.getElementById('perfumeDescription').value = perfume.description;
+                
+                // Удаляем старую запись
+                deletePerfume(id);
+                openAddModal();
+            }
+        }
+
+        // Экспорт данных
+        function exportData() {
+            if (perfumes.length === 0) {
+                alert('Нет данных для экспорта!');
+                return;
+            }
+
+            const csv = [
+                ['Код', 'Название', 'Бренд', 'Объем', 'Цена', 'Количество', 'Общая стоимость', 'Дата добавления'],
+                ...perfumes.map(p => [
+                    p.code,
+                    p.name,
+                    p.brand,
+                    p.volume || '',
+                    p.price,
+                    p.quantity,
+                    p.price * p.quantity,
+                    new Date(p.dateAdded).toLocaleDateString()
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `perfumes_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // Очистка всех данных
+        function clearAll() {
+            if (confirm('Вы уверены, что хотите удалить ВСЕ парфюмы? Это действие нельзя отменить!')) {
+                perfumes = [];
+                savePerfumes();
+                renderPerfumes();
+                updateStats();
+            }
+        }
+
+        // Сохранение в localStorage
+        function savePerfumes() {
+            localStorage.setItem('perfumes', JSON.stringify(perfumes));
+        }
+
+        // Показать сообщение
+        function showMessage(text, type = 'info') {
+            const messageArea = document.getElementById('messageArea');
+            const className = type === 'error' ? 'error-message' : 'success-message';
+            messageArea.innerHTML = `<div class="${className}">${text}</div>`;
+        }
+
+        // Очистить сообщение
+        function clearMessage() {
+            document.getElementById('messageArea').innerHTML = '';
+        }
+
+        // Закрытие модального окна по клику вне его
+        document.getElementById('addModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddModal();
+            }
+        });
+
+        // Горячие клавиши
+        document.addEventListener
