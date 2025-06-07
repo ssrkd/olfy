@@ -1,0 +1,15 @@
+# Не отслеживать зависимости
+node_modules/
+
+# Не отслеживать билды
+build/
+
+# Не отслеживать кэш gh-pages
+.cache/
+node_modules/.cache/gh-pages/
+
+# Конфигурации среды
+.env
+
+# Системные файлы
+.DS_Store
