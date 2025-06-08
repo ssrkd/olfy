@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Preloader from "./components/Preloader";
 import Home from "./pages/Home";
+const base = process.env.PUBLIC_URL;
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,17 +14,17 @@ const App = () => {
   };
 
   const getAudioForTab = (tab) => {
-    switch (tab) {
-      case "Парфюмы":
-        return "/assets/work.mp3";
-      case "О нас":
-        return "/assets/about.mp3";
-      case "Контакт":
-        return "/assets/contact.mp3";
-      default:
-        return null;
-    }
-  };
+  switch (tab) {
+    case "Парфюмы":
+      return `${base}/assets/work.mp3`;
+    case "О нас":
+      return `${base}/assets/about.mp3`;
+    case "Контакт":
+      return `${base}/assets/contact.mp3`;
+    default:
+      return null;
+  }
+};
 
   const audioSrc = getAudioForTab(activeTab);
 
