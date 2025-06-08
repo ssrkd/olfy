@@ -225,7 +225,7 @@ const ClockWidget = () => {
         {time.isDay ? <Circle /> : <Moon />}
         <TextBlock>
           <span>ASTANA, KZ</span>
-          <span>{time.time} GMT+6</span>
+          <span>{time.time} GMT+5</span>
         </TextBlock>
       </CityTime>
     </ClockWrapper>
