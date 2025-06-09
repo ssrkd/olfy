@@ -35,6 +35,7 @@ const Preloader = ({ onFinish }) => {
           exit={{ opacity: 0 }}
           className="w-full px-4"
         >
+          {/* Анимация текста */}
           <motion.div className="flex justify-center space-x-4 text-white uppercase font-semibold tracking-widest text-center text-xl md:text-3xl">
             {text.split(" ").map((word, i) => (
               <motion.span
@@ -48,7 +49,7 @@ const Preloader = ({ onFinish }) => {
             ))}
           </motion.div>
 
-          {/* Полоса загрузки */}
+          {/* Полоса загрузки с адаптацией для мобильных устройств */}
           <div className="fixed bottom-0 left-0 w-full h-1 bg-gray-800">
             <motion.div
               className="h-full bg-green-500"
