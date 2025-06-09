@@ -224,10 +224,12 @@ const EnhancedVideoGallery = () => {
         <p>Откройте для себя нашу изысканную коллекцию роскошных ароматов</p>
       </Header>
 
+      {/* Mobile Version: Show only one video */}
       <MobileSwipe {...swipeHandlers}>
         {renderCard(videos[currentIndex], currentIndex)}
       </MobileSwipe>
 
+      {/* Desktop Version: Show all videos */}
       <Grid>
         {videos.map((video, index) => renderCard(video, index))}
       </Grid>

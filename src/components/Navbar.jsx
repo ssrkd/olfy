@@ -32,6 +32,7 @@ const Nav = styled.div`
 
   @media (max-width: 768px) {
     padding: ${({ scrolled }) => (scrolled ? '12px 20px' : '16px 20px')};
+    justify-content: space-between;
   }
 `;
 
@@ -287,9 +288,8 @@ const Navbar = ({ audioSrc, setActiveTab }) => {
       <NavRight>
         <ClockWidget />
         <a href="https://wa.me/77768883007" target="_blank" rel="noopener noreferrer">
-  <Button>Заказать</Button>
-</a>
-
+          <Button>Заказать</Button>
+        </a>
       </NavRight>
 
       <audio ref={audioRef} loop />
