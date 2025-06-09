@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/olfyy/static/css/main.262650a9.css",
-    "main.js": "/olfyy/static/js/main.6e064733.js",
+    "main.js": "/olfyy/static/js/main.c437f82f.js",
     "index.html": "/olfyy/index.html",
     "main.262650a9.css.map": "/olfyy/static/css/main.262650a9.css.map",
-    "main.6e064733.js.map": "/olfyy/static/js/main.6e064733.js.map"
+    "main.c437f82f.js.map": "/olfyy/static/js/main.c437f82f.js.map"
   },
   "entrypoints": [
     "static/css/main.262650a9.css",
-    "static/js/main.6e064733.js"
+    "static/js/main.c437f82f.js"
   ]
 }

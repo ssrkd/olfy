@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { DateTime } from "luxon";
-const base = process.env.PUBLIC_URL;
+const base = "https://pub-5be99c1007dc4a7990d981035f6042dd.r2.dev";
 
 // Анимация звуковых точек
 const soundWave = keyframes`
@@ -272,7 +272,7 @@ const Navbar = ({ audioSrc, setActiveTab }) => {
   return (
     <Nav scrolled={isScrolled}>
       <a href="/" onClick={handleLogoClick}>
-        <Logo src={`${base}/assets/logo.png`} alt="logo" />
+        <Logo src={`${base}/logo.png`} alt="logo" />
       </a>
 
       <SoundWrapper onClick={toggleSound}>

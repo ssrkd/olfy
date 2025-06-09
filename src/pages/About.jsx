@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
-const base = process.env.PUBLIC_URL;
+const base = "https://pub-5be99c1007dc4a7990d981035f6042dd.r2.dev";
 
 const About = () => {
   const headerRef = useRef(null);
@@ -285,7 +285,7 @@ const About = () => {
                   loop 
                   playsInline
                 >
-                  <source src={`${base}/assets/astana.mp4`} type="video/mp4" />
+                  <source src={`${base}/astana.mp4`} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 
@@ -324,7 +324,7 @@ const About = () => {
 
             {/* Hidden Audio */}
             <audio ref={audioRef} loop>
-              <source src={`${base}/assets/music.mp3`} type="audio/mpeg" />
+              <source src={`${base}/music.mp3`} type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
           </section>

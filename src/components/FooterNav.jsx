@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-const base = process.env.PUBLIC_URL;
+const base = "https://pub-5be99c1007dc4a7990d981035f6042dd.r2.dev";
 
 const Footer = styled.div`
   position: fixed;
@@ -39,7 +39,7 @@ const FooterNav = ({ active, setActive }) => {
   const clickSoundRef = useRef(null);
 
   useEffect(() => {
-  clickSoundRef.current = new Audio(`${base}/assets/click.mp3`);
+  clickSoundRef.current = new Audio(`${base}/click.mp3`);
   clickSoundRef.current.volume = 0.7;
   clickSoundRef.current.load();
 }, []);
